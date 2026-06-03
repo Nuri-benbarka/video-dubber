@@ -10,7 +10,7 @@ from rich.table import Table
 from video_dubber import __version__
 from video_dubber.cache import CacheManager
 from video_dubber.config import load_settings
-from video_dubber.steps import downloader
+from video_dubber.steps import downloader, separator
 
 app = typer.Typer(
     name="dub",
@@ -71,7 +71,17 @@ def dub(
         if only_step == "download":
             return
 
-    if only_step not in (None, "download"):
+    if only_step in ("separate", None):
+        console.print("\n[bold]Step: source separation[/bold]")
+        key = cache.get_key(input)
+        audio_path = cache.path(key, "audio.wav")
+        sep_result = separator.run(audio_path, cache, key)
+        console.print(f"  vocals     → {sep_result['vocals_path']}")
+        console.print(f"  background → {sep_result['background_path']}")
+        if only_step == "separate":
+            return
+
+    if only_step not in (None, "download", "separate"):
         console.print(f"\n[yellow]Step '{only_step}' not yet implemented.[/yellow]")
 
 

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(lscpu)",
+      "Bash(nvidia-smi)",
+      "WebSearch",
+      "Bash(uv --version)",
+      "Bash(ffmpeg -version)",
+      "Bash(uv init *)",
+      "Bash(uv add *)",
+      "Bash(uv pip *)",
+      "Bash(uv run *)",
+      "Bash(gh auth *)"
+    ]
+  }
+}

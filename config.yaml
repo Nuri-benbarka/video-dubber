@@ -1,0 +1,24 @@
+transcription:
+  backend: whisper_local        # whisper_local | openai_whisper | fireworks_whisper
+  model: large-v3
+
+translation:
+  backend: claude               # claude | openai_gpt | fireworks_llm
+  model: claude-sonnet-4-6
+  target_dialect: msa
+
+tts:
+  backend: indextts2            # indextts2 | elevenlabs | openai_tts
+  voice_cloning: true
+
+audio:
+  preserve_background: true
+  background_volume: 0.8
+
+processing:
+  chunk_size_seconds: 30
+  cache_dir: .cache
+
+output:
+  suffix: _ar
+  include_subtitles: true

@@ -8,7 +8,9 @@ from rich.console import Console
 from rich.table import Table
 
 from video_dubber import __version__
+from video_dubber.cache import CacheManager
 from video_dubber.config import load_settings
+from video_dubber.steps import downloader
 
 app = typer.Typer(
     name="dub",
@@ -59,7 +61,18 @@ def dub(
         table.add_row("Only step", only_step)
     console.print(table)
 
-    console.print("\n[yellow]Pipeline not yet implemented — scaffold complete.[/yellow]")
+    cache = CacheManager(settings.processing.cache_dir, enabled=not no_cache)
+
+    if only_step == "download" or only_step is None:
+        console.print("\n[bold]Step: download & extract audio[/bold]")
+        result = downloader.run(input, cache)
+        console.print(f"  video  → {result['video_path']}")
+        console.print(f"  audio  → {result['audio_path']}")
+        if only_step == "download":
+            return
+
+    if only_step not in (None, "download"):
+        console.print(f"\n[yellow]Step '{only_step}' not yet implemented.[/yellow]")
 
 
 def main() -> None:

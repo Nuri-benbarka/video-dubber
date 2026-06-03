@@ -10,7 +10,10 @@
       "Bash(uv add *)",
       "Bash(uv pip *)",
       "Bash(uv run *)",
-      "Bash(gh auth *)"
+      "Bash(gh auth *)",
+      "Bash(ffmpeg -f lavfi -i \"sine=frequency=440:duration=5\" -f lavfi -i \"color=c=blue:size=320x240:duration=5\" -shortest /tmp/test_sample.mp4 -y -loglevel quiet)",
+      "Bash(ffprobe -v quiet -show_streams -select_streams a .cache/4d83d00a470a/audio.wav)",
+      "Bash(ffprobe -v quiet -show_streams -select_streams a .cache/6392dd272d36/audio.wav)"
     ]
   }
 }

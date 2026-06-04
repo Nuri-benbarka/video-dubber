@@ -13,7 +13,11 @@
       "Bash(gh auth *)",
       "Bash(ffmpeg -f lavfi -i \"sine=frequency=440:duration=5\" -f lavfi -i \"color=c=blue:size=320x240:duration=5\" -shortest /tmp/test_sample.mp4 -y -loglevel quiet)",
       "Bash(ffprobe -v quiet -show_streams -select_streams a .cache/4d83d00a470a/audio.wav)",
-      "Bash(ffprobe -v quiet -show_streams -select_streams a .cache/6392dd272d36/audio.wav)"
+      "Bash(ffprobe -v quiet -show_streams -select_streams a .cache/6392dd272d36/audio.wav)",
+      "Read(//home/benbarka/.cache/whisper/**)",
+      "Bash(rm -f ~/.cache/whisper/large-v3*)",
+      "Bash(rm -f ~/.cache/whisper/large-v3.pt)",
+      "Bash(wget -c -q --show-progress \"https://openaipublic.azureedge.net/main/whisper/models/e5b1a55b89c1367dacf97e3e19bfd829a01529dbfdeefa8caeb59b3f1b81dadb/large-v3.pt\" -O ~/.cache/whisper/large-v3.pt)"
     ]
   }
 }

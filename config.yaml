@@ -3,8 +3,10 @@ transcription:
   model: large-v3
 
 translation:
-  backend: claude               # claude | openai_gpt | fireworks_llm
-  model: claude-sonnet-4-6
+  backend: fireworks_llm        # claude | openai_gpt | fireworks_llm
+  # claude models: claude-sonnet-4-6, claude-opus-4-8
+  # fireworks models: kimi-k2.6, qwen3-235b, qwen3.6-plus, llama-4-maverick
+  model: kimi-k2.6
   target_dialect: msa
 
 tts:

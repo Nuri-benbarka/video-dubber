@@ -10,7 +10,7 @@ from rich.table import Table
 from video_dubber import __version__
 from video_dubber.cache import CacheManager
 from video_dubber.config import load_settings
-from video_dubber.steps import downloader, diarizer, separator
+from video_dubber.steps import downloader, diarizer, separator, transcriber
 
 app = typer.Typer(
     name="dub",
@@ -93,7 +93,19 @@ def dub(
         if only_step == "diarize":
             return
 
-    if only_step not in (None, "download", "separate", "diarize"):
+    if only_step in ("transcribe", None):
+        console.print("\n[bold]Step: transcription[/bold]")
+        import json
+        key = cache.get_key(input)
+        vocals_path = cache.path(key, "vocals.wav")
+        diarization = json.loads(cache.path(key, "diarization.json").read_text())
+        tx_result = transcriber.run(vocals_path, diarization, cache, key, settings.transcription)
+        console.print(f"  segments   → {len(tx_result['transcription'])}")
+        console.print(f"  saved      → {tx_result['transcription_path']}")
+        if only_step == "transcribe":
+            return
+
+    if only_step not in (None, "download", "separate", "diarize", "transcribe"):
         console.print(f"\n[yellow]Step '{only_step}' not yet implemented.[/yellow]")
 
 

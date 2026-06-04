@@ -48,7 +48,7 @@ Output: dubbed video (_ar.mp4) + subtitle file (_ar.srt)
 | Speaker diarization | `pyannote.audio` |
 | Transcription (local) | `openai-whisper` (large-v3) |
 | Transcription (cloud) | OpenAI Whisper API / Fireworks API |
-| Translation | `anthropic` / `openai` / Fireworks API |
+| Translation | `anthropic` / `openai` / Fireworks API (Kimi K2.6, Qwen3, Llama) |
 | TTS (local) | `indextts` (IndexTTS2) |
 | TTS (cloud) | ElevenLabs API / OpenAI TTS API |
 | CLI | `typer` |

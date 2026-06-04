@@ -10,7 +10,7 @@ from rich.table import Table
 from video_dubber import __version__
 from video_dubber.cache import CacheManager
 from video_dubber.config import load_settings
-from video_dubber.steps import downloader, separator
+from video_dubber.steps import downloader, diarizer, separator
 
 app = typer.Typer(
     name="dub",
@@ -81,7 +81,19 @@ def dub(
         if only_step == "separate":
             return
 
-    if only_step not in (None, "download", "separate"):
+    if only_step in ("diarize", None):
+        console.print("\n[bold]Step: speaker diarization[/bold]")
+        key = cache.get_key(input)
+        vocals_path = cache.path(key, "vocals.wav")
+        dia_result = diarizer.run(vocals_path, cache, key, settings.pyannote_auth_token)
+        speakers = set(t["speaker"] for t in dia_result["diarization"])
+        console.print(f"  speakers   → {', '.join(sorted(speakers))}")
+        console.print(f"  segments   → {len(dia_result['diarization'])}")
+        console.print(f"  saved      → {dia_result['diarization_path']}")
+        if only_step == "diarize":
+            return
+
+    if only_step not in (None, "download", "separate", "diarize"):
         console.print(f"\n[yellow]Step '{only_step}' not yet implemented.[/yellow]")
 
 

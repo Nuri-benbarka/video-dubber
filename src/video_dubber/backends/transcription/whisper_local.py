@@ -16,27 +16,32 @@ class WhisperLocalBackend(TranscriptionBackend):
 
     def _load(self):
         if self._model is None:
-            import whisper
-            import torch
-            device = "cuda" if torch.cuda.is_available() else "cpu"
-            console.print(f"[cyan]  transcribe: loading whisper {self.model_name} on {device}...[/cyan]")
-            self._model = whisper.load_model(self.model_name, device=device)
+            from faster_whisper import WhisperModel
+            # int8 quantization: large-v3 fits in ~2.5 GB VRAM (vs ~6 GB fp32)
+            console.print(f"[cyan]  transcribe: loading faster-whisper {self.model_name} (int8 on cuda)...[/cyan]")
+            self._model = WhisperModel(
+                self.model_name,
+                device="cuda",
+                compute_type="int8",
+            )
         return self._model
 
     def transcribe(self, audio_path: Path) -> list[dict]:
         model = self._load()
         console.print("[cyan]  transcribe: running Whisper...[/cyan]")
-        result = model.transcribe(
+
+        segments_iter, _ = model.transcribe(
             str(audio_path),
             language="en",
             word_timestamps=True,
-            verbose=False,
+            vad_filter=True,  # skip silence chunks — faster + cleaner
         )
+
         return [
             {
-                "start": round(seg["start"], 3),
-                "end": round(seg["end"], 3),
-                "text": seg["text"].strip(),
+                "start": round(seg.start, 3),
+                "end": round(seg.end, 3),
+                "text": seg.text.strip(),
             }
-            for seg in result["segments"]
+            for seg in segments_iter
         ]

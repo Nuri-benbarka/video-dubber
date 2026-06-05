@@ -19,8 +19,8 @@ class TranscriptionConfig(BaseSettings):
 class TranslationConfig(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="TRANSLATION_")
 
-    backend: Literal["claude", "openai_gpt", "fireworks_llm"] = "claude"
-    model: str = "claude-sonnet-4-6"
+    backend: Literal["claude", "gemini", "fireworks_llm"] = "gemini"
+    model: str = "gemini-3-flash"
     target_dialect: Literal["msa"] = "msa"
 
 
@@ -68,7 +68,7 @@ class Settings(BaseSettings):
     output: OutputConfig = Field(default_factory=OutputConfig)
 
     anthropic_api_key: str = ""
-    openai_api_key: str = ""
+    gemini_api_key: str = ""
     fireworks_api_key: str = ""
     elevenlabs_api_key: str = ""
     pyannote_auth_token: str = ""

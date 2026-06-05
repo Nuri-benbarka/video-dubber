@@ -3,10 +3,11 @@ transcription:
   model: large-v3
 
 translation:
-  backend: fireworks_llm        # claude | openai_gpt | fireworks_llm
+  backend: gemini               # claude | gemini | fireworks_llm
   # claude models: claude-sonnet-4-6, claude-opus-4-8
+  # gemini models: gemini-3-flash, gemini-3.1-pro, gemini-2.5-flash, gemini-2.5-pro
   # fireworks models: kimi-k2.6, qwen3-235b, qwen3.6-plus, llama-4-maverick
-  model: kimi-k2.6
+  model: gemini-3-flash
   target_dialect: msa
 
 tts:
